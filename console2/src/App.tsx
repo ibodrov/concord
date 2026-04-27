@@ -54,8 +54,6 @@ import NewStorageQueryPage from './components/pages/JsonStorePage/NewStorageQuer
 import EditStoreQueryPage from './components/pages/JsonStorePage/EditStoreQueryPage';
 import { initialState, LoadingAction, reducer } from './reducers/loading';
 import NewStorePage from './components/pages/JsonStorePage/NewStorePage';
-import NodeRosterPage from './components/pages/NodeRoster/NodeRosterPage';
-import HostPage from './components/pages/NodeRoster/HostPage';
 import { UserSessionContext, checkSession, UserInfo } from './session';
 
 export const LoadingDispatch = React.createContext<Dispatch<LoadingAction>>(
@@ -165,9 +163,6 @@ const App = () => {
                                         path="/process/:instanceId/*"
                                         element={<ProcessPage />}
                                     />
-
-                                    <Route path="/noderoster/host/:id/*" element={<HostPage />} />
-                                    <Route path="/noderoster/*" element={<NodeRosterPage />} />
 
                                     <Route path="/about" element={<AboutPage />} />
                                     <Route path="/profile/*" element={<ProfilePage />} />

@@ -68,7 +68,6 @@ Starting...
 * [groovy_rest](groovy_rest) - calling a REST endpoint from a flow using Groovy;
 * [imports](imports) - how to use external GIT/http/mvn resources as project files;
 * [juel_java_streams](juel_java_streams) - using expressions, Groovy and Java Streams;
-* [noderoster](noderoster) - how to use the Node Roster task;
 * [process_card_htmx](process_card_htmx) - how to use "process cards" and [HTMX](https://htmx.org/) to implement custom forms to start processes;
 * [process_card_jquery](process_card_jquery) - how to use "process cards" and [jQuery](https://jquery.com/) to implement custom forms to start processes;
 * [profiles](profiles) - how to use profiles;

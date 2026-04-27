@@ -133,12 +133,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Node Roster stuff -->
-        <dependency>
-            <groupId>com.walmartlabs.concord.server.plugins.noderoster</groupId>
-            <artifactId>concord-noderoster-plugin-client2</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>

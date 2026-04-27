@@ -46,7 +46,6 @@ docker run -d \
 -v "${CONCORD_CFG_FILE}:${CONCORD_CFG_FILE}:ro" \
 -e "CONCORD_CFG_FILE=${CONCORD_CFG_FILE}" \
 -e 'DB_URL=jdbc:postgresql://db:5432/postgres' \
--e 'NODEROSTER_DB_URL=jdbc:postgresql://db:5432/postgres' \
 -e 'CONCORD_MAVEN_CFG=/opt/concord/conf/mvn.json' \
 "${DOCKER_PREFIX}/concord-server:${VERSION}"
 
