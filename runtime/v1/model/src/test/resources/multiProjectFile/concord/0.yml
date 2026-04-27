@@ -7,7 +7,7 @@ forms:
   - myName: {type: "string"}
 
 triggers:
-  - oneops:
+  - example:
       stuff: "yep"
       entryPoint: "default"
 

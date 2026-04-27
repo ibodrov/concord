@@ -237,8 +237,7 @@ public class ProjectIT extends AbstractServerIT {
         while (true) {
             List<TriggerEntry> triggers = triggersApi.listTriggers("Default", projectName, repoName);
             if (hasCondition("github", "branch", "foo", triggers) &&
-                    hasCondition("github", "branch", "foo2", triggers) &&
-                    hasCondition("oneops", "org", "myOrg", triggers)) {
+                    hasCondition("github", "branch", "foo2", triggers)) {
                 break;
             }
 

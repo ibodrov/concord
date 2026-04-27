@@ -53,7 +53,6 @@ public final class YamlTriggersConverter {
         Map<String, TriggerConverter> converters = new HashMap<>();
         converters.put("manual", new TriggerV1Converter(MANUAL_TRIGGER_CONFIG_KEYS));
         converters.put("github", new TriggerV2Converter(TRIGGER_CONFIG_KEYS));
-        converters.put("oneops", new DefaultTriggerConverter());
         return converters;
     }
 

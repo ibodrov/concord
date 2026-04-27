@@ -455,36 +455,6 @@ public class YamlErrorParserTest extends AbstractParserTest {
     }
 
     @Test
-    public void test125() throws Exception {
-        String msg = "(025.yml): Error @ n/a. Version 1 of oneops trigger not supported\n" +
-                "\twhile processing steps:\n" +
-                "\t'oneops' @ line: 2, col: 5\n" +
-                "\t\t'triggers' @ line: 1, col: 1";
-
-        assertErrorMessage("errors/triggers/025.yml", msg);
-    }
-
-    @Test
-    public void test126() throws Exception {
-        String msg = "(026.yml): Error @ n/a. Mandatory parameter 'conditions' not found\n" +
-                "\twhile processing steps:\n" +
-                "\t'oneops' @ line: 2, col: 5\n" +
-                "\t\t'triggers' @ line: 1, col: 1";
-
-        assertErrorMessage("errors/triggers/026.yml", msg);
-    }
-
-    @Test
-    public void test127() throws Exception {
-        String msg = "(027.yml): Error @ line: 7, col: 14. Unknown options: ['trash' [STRING] @ line: 7, col: 14], expected: [activeProfiles, arguments, conditions, entryPoint, exclusive, useInitiator, version]. Remove invalid options and/or fix indentation\n" +
-                "\twhile processing steps:\n" +
-                "\t'oneops' @ line: 2, col: 5\n" +
-                "\t\t'triggers' @ line: 1, col: 1";
-
-        assertErrorMessage("errors/triggers/027.yml", msg);
-    }
-
-    @Test
     public void test128() throws Exception {
         String msg = "(028.yml): Error @ line: 5, col: 19. Invalid value type, expected: OBJECT, got: INT\n" +
                 "\twhile processing steps:\n" +
