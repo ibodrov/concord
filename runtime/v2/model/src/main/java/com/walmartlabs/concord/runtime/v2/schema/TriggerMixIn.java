@@ -37,7 +37,6 @@ import java.util.Map;
         @JsonSubTypes.Type(value = TriggerMixIn.ManualTriggerMixIn.class, name = "Manual Trigger"),
         @JsonSubTypes.Type(value = TriggerMixIn.CronTriggerMixIn.class, name = "Cron Trigger"),
         @JsonSubTypes.Type(value = TriggerMixIn.GithubTriggerMixIn.class, name = "Github Trigger"),
-        @JsonSubTypes.Type(value = TriggerMixIn.OneOpsTriggerMixIn.class, name = "OneOps Trigger"),
         @JsonSubTypes.Type(value = TriggerMixIn.GenericTriggerMixIn.class, name = "Generic Trigger")
 })
 @SuppressWarnings("unused")
@@ -146,13 +145,6 @@ public interface TriggerMixIn extends Trigger {
                 Map<String, Object> queryParams();
             }
         }
-    }
-
-    @JsonTypeName("OneOpsTrigger")
-    interface OneOpsTriggerMixIn extends TriggerMixIn {
-
-        @JsonProperty("oneops")
-        Map<String, Object> params();
     }
 
     @JsonTypeName("GenericTrigger")

@@ -96,7 +96,6 @@ public final class YamlValueType<T> {
     public static final YamlValueType<Map<String, Object>> GITHUB_TRIGGER_CONDITIONS = type("GITHUB_TRIGGER_CONDITIONS");
     public static final YamlValueType<Trigger> CRON_TRIGGER = type("CRON_TRIGGER");
     public static final YamlValueType<Trigger> MANUAL_TRIGGER = type("MANUAL_TRIGGER");
-    public static final YamlValueType<Trigger> ONEOPS_TRIGGER = type("ONEOPS_TRIGGER");
     public static final YamlValueType<Trigger> GENERIC_TRIGGER = type("GENERIC_TRIGGER");
     public static final YamlValueType<IfStep> IF = type("IF");
     public static final YamlValueType<SwitchStep> SWITCH = type("SWITCH");

@@ -13,6 +13,3 @@ triggers:
       conditions:
         type: "push"
         branch: "foo2"
-  - oneops:
-      org: "myOrg"
-      entryPoint: onPush
