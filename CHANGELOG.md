@@ -1,5 +1,30 @@
 # Change Log
 
+## Fork Changes
+
+- project: require Java 25
+([#1279](https://github.com/walmartlabs/concord/pull/1279));
+- concord-server: add JSON principal serialization
+([#1305](https://github.com/walmartlabs/concord/pull/1305));
+- console2: migrate to React Router 7
+([#1307](https://github.com/walmartlabs/concord/pull/1307));
+- console2: replace stale dependencies
+([#1308](https://github.com/walmartlabs/concord/pull/1308));
+- concord-server: assert process details permissions
+([#1309](https://github.com/walmartlabs/concord/pull/1309));
+- project: update dependencies
+([#1310](https://github.com/walmartlabs/concord/pull/1310));
+- project: remove OneOps feature
+([#4](https://github.com/ibodrov/concord/pull/4));
+- project: remove NodeRoster feature
+([#5](https://github.com/ibodrov/concord/pull/5));
+- project: remove kafka-event-sink feature
+([#6](https://github.com/ibodrov/concord/pull/6));
+- project: remove pfed-sso feature
+([#7](https://github.com/ibodrov/concord/pull/7));
+- project: remove OIDC feature
+([#8](https://github.com/ibodrov/concord/pull/8)).
+
 ## [2.39.0] - 2026-04-09
 
 ### Added
