@@ -1,10 +1,14 @@
 configuration:
+  runtime: "concord-v2"
+  arguments:
+    retryCount: 1
+    retryDelay: 2
   dependencies:
     - mvn://com.walmartlabs.concord.plugins.basic:ansible-tasks:PROJECT_VERSION
 
 flows:
   default:
-  - task: ansible2
+  - task: ansible
     in:
       playbook: playbook/hello.yml
       inventory:

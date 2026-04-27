@@ -3,5 +3,6 @@ flows:
     - log: "Hello from Template, ${nameInExternalImport}!"
 
 configuration:
+  runtime: "concord-v2"
   arguments:
     nameInExternalImport: "Concord"

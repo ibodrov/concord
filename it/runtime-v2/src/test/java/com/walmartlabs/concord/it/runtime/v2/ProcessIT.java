@@ -61,6 +61,28 @@ public class ProcessIT extends AbstractTest {
         proc.assertLog(".*Hello, Concord!.*");
     }
 
+    @Test
+    public void testMissingRuntimeFails() throws Exception {
+        Payload payload = new Payload()
+                .archive(resource("missingRuntime"));
+
+        ConcordProcess proc = concord.processes().start(payload);
+        expectStatus(proc, ProcessEntry.StatusEnum.FAILED);
+
+        proc.assertLog(".*Missing runtime type\\. Concord supports only runtime: concord-v2\\..*");
+    }
+
+    @Test
+    public void testUnsupportedRuntimeFails() throws Exception {
+        Payload payload = new Payload()
+                .archive(resource("unsupportedRuntime"));
+
+        ConcordProcess proc = concord.processes().start(payload);
+        expectStatus(proc, ProcessEntry.StatusEnum.FAILED);
+
+        proc.assertLog(".*Unsupported runtime type: concord-v1\\. Concord supports only runtime: concord-v2\\..*");
+    }
+
     /**
      * Username signature generation.
      */
@@ -565,7 +587,7 @@ public class ProcessIT extends AbstractTest {
                 .archive(resource("emptyExclusiveGroup")));
 
         expectStatus(proc, ProcessEntry.StatusEnum.FAILED);
-        proc.assertLog(".*Invalid exclusive mode.*");
+        proc.assertLog(".*Invalid value type, expected: NON_EMPTY_STRING.*");
     }
 
     @Test

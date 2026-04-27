@@ -82,38 +82,6 @@ public class ProcessIT extends AbstractServerIT {
     }
 
     @Test
-    public void testTaskOut() throws Exception {
-        byte[] payload = archive(ProcessIT.class.getResource("taskOut").toURI());
-
-        StartProcessResponse spr = start(payload);
-
-        // ---
-
-        ProcessEntry pir = waitForCompletion(getApiClient(), spr.getInstanceId());
-
-        // ---
-
-        byte[] ab = getLog(pir.getInstanceId());
-        assertLog(".*I said: Hello!.*", ab);
-    }
-
-    @Test
-    public void testDelegateOut() throws Exception {
-        byte[] payload = archive(ProcessIT.class.getResource("delegateOut").toURI());
-
-        StartProcessResponse spr = start(payload);
-
-        // ---
-
-        ProcessEntry pir = waitForCompletion(getApiClient(), spr.getInstanceId());
-
-        // ---
-
-        byte[] ab = getLog(pir.getInstanceId());
-        assertLog(".*I said: Hello!.*", ab);
-    }
-
-    @Test
     public void testProjectId() throws Exception {
         String orgName = "Default";
         String projectName = "project_" + randomString();

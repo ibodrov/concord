@@ -97,7 +97,6 @@ public class ProcessCheckpointManager {
             try (TemporaryPath extractedDir = PathUtils.tempDir("unzipped-checkpoint")) {
                 ZipUtils.unzip(checkpointArchive.path(), extractedDir.path());
 
-                // TODO: only for v1 runtime
                 String eventName = readCheckpointEventName(extractedDir.path());
 
                 stateManager.tx(tx -> {

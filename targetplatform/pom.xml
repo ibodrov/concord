@@ -179,11 +179,6 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.walmartlabs.concord.runtime.v1</groupId>
-                <artifactId>concord-runtime-model-v1</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.walmartlabs.concord.runtime</groupId>
                 <artifactId>concord-runtime-loader</artifactId>
                 <version>${project.version}</version>
@@ -206,11 +201,6 @@
             <dependency>
                 <groupId>com.walmartlabs.concord</groupId>
                 <artifactId>concord-repository</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.walmartlabs.concord.runtime.v1</groupId>
-                <artifactId>concord-runtime-impl-v1</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

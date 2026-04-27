@@ -1,11 +1,15 @@
+configuration:
+  runtime: "concord-v2"
+
 flows:
   default:
-  - task: http
-    in:
-     method: GET
-     url: "http://dummy/server/get/request"
-     response: "json"
-     out: rsp
+  - try:
+    - task: http
+      in:
+       method: GET
+       url: "http://dummy/server/get/request"
+       response: "json"
+      out: rsp
     error:
       - ${log.error("server not exists")}
-  - log: "Out Response: ${rsp.success}"
+      - throw: "HTTP request failed"

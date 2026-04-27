@@ -4,8 +4,7 @@ configuration:
 flows:
   default:
 
-    # The v1 runtime provides no satisfactory way to run flow steps in parallel in one single process.
-    # The v2 runtime was designed with parallel execution in mind. It adds a new step - parallel.
+    # The parallel step runs flow branches in one process.
     - parallel:
         - ${sleep.ms(5000)}
         - ${sleep.ms(5000)}

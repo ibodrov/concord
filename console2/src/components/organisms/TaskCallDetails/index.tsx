@@ -154,7 +154,6 @@ const pickEvent = (
     }
 
     if (data[0].data.phase === 'pre') {
-        // runtime-v1 events have 'in' data only in the 'pre' phase
         // Copy the 'post' event to a new object and merge 'pre' phase 'in' data
         // if it exists
         const entry: ProcessEventEntry<ProcessElementEvent> = {

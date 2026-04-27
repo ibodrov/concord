@@ -1,3 +1,6 @@
+configuration:
+  runtime: "concord-v2"
+
 imports:
   - git:
       url: "{{gitUrl}}"
@@ -5,3 +8,5 @@ imports:
 triggers:
   - test:
       entryPoint: "flowFromTemplate"
+      version: 2
+      conditions: {}

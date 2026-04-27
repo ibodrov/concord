@@ -23,6 +23,16 @@ package com.walmartlabs.concord.process.loader;
 public class UnsupportedRuntimeTypeException extends Exception {
 
     public UnsupportedRuntimeTypeException(String runtime) {
-        super("Unsupported runtime type: " + runtime);
+        super("Unsupported runtime type: " + runtime +
+                ". Concord supports only runtime: " + StandardRuntimeTypes.CONCORD_V2_RUNTIME_TYPE + ".");
+    }
+
+    public static UnsupportedRuntimeTypeException missing() {
+        return new UnsupportedRuntimeTypeException("Missing runtime type. Concord supports only runtime: " +
+                StandardRuntimeTypes.CONCORD_V2_RUNTIME_TYPE + ".", true);
+    }
+
+    private UnsupportedRuntimeTypeException(String message, boolean ignored) {
+        super(message);
     }
 }

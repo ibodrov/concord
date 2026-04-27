@@ -1,17 +1,19 @@
-flows:
-  main:
-  - log: Hello, ${name}
-  - log: ${nested.val}
-
-variables:
+configuration:
   arguments:
     name: "stranger"
     nested:
       val: "xyz12345abc"
 
+  runtime: "concord-v2"
+
+flows:
+  main:
+  - log: Hello, ${name}
+  - log: ${nested.val}
+
 profiles:
   test:
-    variables:
+    configuration:
       arguments:
         name: "world"
         nested:

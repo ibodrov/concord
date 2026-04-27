@@ -1,19 +1,21 @@
+configuration:
+  arguments:
+    name: "stranger"
+    x: 0
+
+  runtime: "concord-v2"
+
 flows:
   main:
     - log: "Hello, ${name}"
     - log: "x=${x}"
 
-variables:
-  arguments:
-    name: "stranger"
-    x: 0
-
 profiles:
   test1:
-    variables:
+    configuration:
       arguments:
         name: "world"
   test2:
-    variables:
+    configuration:
       arguments:
         x: 123

@@ -43,7 +43,6 @@ public class AgentDependencyManagerConfigurationProvider implements Provider<Dep
                 .cacheDir(cfg.getDependencyCacheDir())
                 .strictRepositories(cfg.dependencyStrictRepositories())
                 .exclusions(cfg.dependencyExclusions())
-                .explicitlyResolveV1Client(cfg.isExplicitlyResolveV1Client())
                 .offlineMode(cfg.isMavenOfflineMode())
                 .build();
     }

@@ -1,5 +1,19 @@
+configuration:
+  runtime: "concord-v2"
+
 flows:
   default:
   - log: "Executing Inventory Query for Principal Permission Integration Test"
-  - log: "${inventory.query(inventoryName, queryName, null)}"
-
+  - task: http
+    in:
+      method: POST
+      url: "${baseUrl}/api/v1/org/${orgName}/inventory/${inventoryName}/query/${queryName}/exec"
+      auth:
+        basic:
+          username: ${processInfo.sessionToken}
+          password: ""
+      body: {}
+      request: json
+      response: json
+    out: response
+  - log: "Inventory query result: ${response.content}"

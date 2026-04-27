@@ -36,13 +36,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class LintTest extends AbstractTest {
 
     @Test
-    void lintV1Test() throws Exception {
-        int exitCode = lint("lintV1");
-        assertEquals(0, exitCode);
-        assertLog(".*flows: 2.*");
-    }
-
-    @Test
     void lintV2Test() throws Exception {
         int exitCode = lint("lintV2");
         assertEquals(0, exitCode);

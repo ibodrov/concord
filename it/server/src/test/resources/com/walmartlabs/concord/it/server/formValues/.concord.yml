@@ -1,6 +1,10 @@
+configuration:
+  entryPoint: main
+  runtime: "concord-v2"
+
 flows:
   main:
-  - sub
+  - call: sub
 
   sub:
   - set:
@@ -11,6 +15,3 @@ flows:
 forms:
   myForm:
   - name: {type: "string"}
-
-variables:
-  entryPoint: main

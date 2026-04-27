@@ -33,7 +33,6 @@ import {
     ProcessChildrenActivity,
     ProcessEventsActivity,
     ProcessHistoryActivity,
-    ProcessLogActivity,
     ProcessLogActivityV2,
     ProcessStatusActivity,
     ProcessWaitActivity,
@@ -305,28 +304,15 @@ const ProcessActivity = (props: ExternalProps) => {
                 <Route
                     path="log"
                     element={
-                        <>
-                            {process && process.runtime === 'concord-v1' && (
-                                <ProcessLogActivity
-                                    instanceId={instanceId}
-                                    processStatus={process ? process.status : undefined}
-                                    loadingHandler={loadingHandler}
-                                    forceRefresh={refresh}
-                                    dataFetchInterval={dataFetchInterval}
-                                />
-                            )}
-                            {process &&
-                                (process.runtime === 'concord-v2' ||
-                                    process.runtime === undefined) && (
-                                    <ProcessLogActivityV2
-                                        instanceId={instanceId}
-                                        processStatus={process ? process.status : undefined}
-                                        loadingHandler={loadingHandler}
-                                        forceRefresh={refresh}
-                                        dataFetchInterval={dataFetchInterval}
-                                    />
-                                )}
-                        </>
+                        process && (
+                            <ProcessLogActivityV2
+                                instanceId={instanceId}
+                                processStatus={process ? process.status : undefined}
+                                loadingHandler={loadingHandler}
+                                forceRefresh={refresh}
+                                dataFetchInterval={dataFetchInterval}
+                            />
+                        )
                     }
                 />
                 <Route

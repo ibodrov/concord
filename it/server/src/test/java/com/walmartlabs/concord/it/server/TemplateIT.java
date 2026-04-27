@@ -42,11 +42,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TemplateIT extends AbstractServerIT {
 
-    private static final String MAIN_JS = "({ entryPoint: \"main\", arguments: { greeting: \"Hello, \" + _input.name }})";
+    private static final String MAIN_JS = "({ runtime: \"concord-v2\", entryPoint: \"main\", arguments: { greeting: \"Hello, \" + _input.name }})";
 
     @Test
     public void test() throws Exception {
-        final String processYml = "main:\n- expr: ${log.info(\"test\", greeting)}";
+        final String processYml = "main:\n- log: \"${greeting}\"";
 
         String templateAlias = "template_" + randomString();
         Path templatePath = createTemplate(processYml, MAIN_JS);
@@ -93,7 +93,7 @@ public class TemplateIT extends AbstractServerIT {
 
     @Test
     public void testInputVariablesStillPresent() throws Exception {
-        final String processYml = "main:\n- expr: ${log.info(\"test\", xxx)}";
+        final String processYml = "main:\n- log: \"${xxx}\"";
 
         String templateAlias = "template_" + randomString();
         Path templatePath = createTemplate(processYml, MAIN_JS);
@@ -197,11 +197,11 @@ public class TemplateIT extends AbstractServerIT {
             Files.write(metaPath, mainJs.getBytes());
         }
 
-        Path processesPath = tmpDir.resolve("flows");
+        Path processesPath = tmpDir.resolve("concord");
         Files.createDirectories(processesPath);
 
-        Path procPath = processesPath.resolve("hello.yml");
-        Files.write(procPath, process.getBytes());
+        Path procPath = processesPath.resolve("hello.concord.yml");
+        Files.write(procPath, ("flows:\n  " + process.replace("\n", "\n  ") + "\n").getBytes());
 
         Path tmpZip = createTempFile(".zip");
         try (ZipArchiveOutputStream zip = new ZipArchiveOutputStream(Files.newOutputStream(tmpZip))) {

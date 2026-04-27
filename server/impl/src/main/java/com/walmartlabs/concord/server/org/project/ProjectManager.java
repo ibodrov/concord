@@ -206,10 +206,19 @@ public class ProjectManager {
             if (e.getValue().isDisabled()) {
                 continue;
             }
-            ProcessDefinition processDefinition = projectRepositoryManager.processDefinition(orgId, projectId, e.getValue());
+            ProcessDefinition processDefinition = projectRepositoryManager.processDefinition(orgId, projectId, e.getValue(), projectCfg(projectId, projectEntry));
             result.put(e.getKey(), processDefinition);
         }
         return result;
+    }
+
+    private Map<String, Object> projectCfg(UUID projectId, ProjectEntry projectEntry) {
+        if (projectEntry.getCfg() != null || projectId == null) {
+            return projectEntry.getCfg();
+        }
+
+        ProjectEntry current = projectDao.get(projectId);
+        return current != null ? current.getCfg() : null;
     }
 
     private void update(UUID projectId, ProjectEntry entry) {

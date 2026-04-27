@@ -1,3 +1,6 @@
+configuration:
+  runtime: "concord-v2"
+
 flows:
   default:
   - task: http
@@ -9,7 +12,8 @@ flows:
         password: ${password}
      url: ${url}
      response: "json"
-     out: rsp
      ignoreErrors: true
+    out: rsp
 
   - log: "statusCode: ${rsp.statusCode}"
+  - log: "Success response: ${rsp.statusCode >= 200 and rsp.statusCode < 300}"

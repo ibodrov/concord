@@ -1,13 +1,15 @@
+configuration:
+  arguments:
+    myName: "world"
+
+  runtime: "concord-v2"
+
 flows:
   main:
   - log: Hello, ${name}
 
-variables:
-  arguments:
-    myName: "world"
-
 profiles:
   test:
-    variables:
+    configuration:
       arguments:
         name: "${myName}"

@@ -93,7 +93,7 @@ public class SecretProjectsIT extends AbstractServerIT {
         assertNotNull(pir.getLogFileName());
 
         byte[] bytes = getLog(pir.getInstanceId());
-        assertLog(".*Project-scoped secrets can only be accessed within the project they belong to.*", 2, bytes);
+        assertLog(".*Project-scoped secrets can only be accessed within the project they belong to.*", 3, bytes);
 
         input.put("project", projectName2);
         spr = start(input);
@@ -102,7 +102,7 @@ public class SecretProjectsIT extends AbstractServerIT {
         assertNotNull(pir.getLogFileName());
 
         bytes = getLog(pir.getInstanceId());
-        assertLog(".*C0nC0rD.*", bytes);
+        assertLog(".*\\*\\*\\*\\*\\*\\*.*", bytes);
 
         input.put("project", projectName1);
         spr = start(input);
@@ -111,7 +111,7 @@ public class SecretProjectsIT extends AbstractServerIT {
         assertNotNull(pir.getLogFileName());
 
         bytes = getLog(pir.getInstanceId());
-        assertLog(".*C0nC0rD.*", bytes);
+        assertLog(".*\\*\\*\\*\\*\\*\\*.*", bytes);
 
         resetApiKey();
         setApiKey(DEFAULT_API_KEY);

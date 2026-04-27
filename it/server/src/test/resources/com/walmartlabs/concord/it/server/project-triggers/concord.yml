@@ -1,3 +1,6 @@
+configuration:
+  runtime: "concord-v2"
+
 flows:
   onPush:
   - log: "onPush!"
@@ -5,11 +8,13 @@ flows:
 triggers:
   - github:
       entryPoint: onPush
+      version: 2
       conditions:
         type: "push"
         branch: "foo"
   - github:
       entryPoint: onPush
+      version: 2
       conditions:
         type: "push"
         branch: "foo2"

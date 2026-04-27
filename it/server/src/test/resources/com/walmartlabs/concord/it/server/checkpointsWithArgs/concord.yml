@@ -1,4 +1,5 @@
 configuration:
+  runtime: "concord-v2"
   runner:
     events:
       recordTaskOutVars: true # test uses out vars to verify checkpointsconfiguration:

@@ -1,13 +1,15 @@
+configuration:
+  arguments:
+    name: "world"
+
+  runtime: "concord-v2"
+
 flows:
   main:
-  - myOtherFlow
+  - call: myOtherFlow
 
   myOtherFlow:
   - log: Bye, ${name}
-
-variables:
-  arguments:
-    name: "world"
 
 profiles:
   test:

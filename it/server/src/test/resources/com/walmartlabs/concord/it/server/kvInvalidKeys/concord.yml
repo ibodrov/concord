@@ -1,6 +1,7 @@
 configuration:
+  runtime: "concord-v2"
   arguments:
-    myKey: null
+    myKey: ""
     myValue: "Hello!"
 
 flows:

@@ -1,14 +1,25 @@
-flows:
-  main:
-  - log: Hello, ${name}
-
-variables:
+configuration:
   entryPoint: main
   arguments:
     name: "stranger"
 
+  runtime: "concord-v2"
+flows:
+  main:
+  - log: Hello, ${name}
+
 profiles:
+  test:
+    configuration:
+      arguments:
+        name: "world"
+
+  another:
+    configuration:
+      arguments:
+        name: "loser"
+
   notUsed:
-    variables:
+    configuration:
       arguments:
         name: "there"

@@ -1,3 +1,6 @@
+configuration:
+  runtime: "concord-v2"
+
 flows:
   default:
 
@@ -14,5 +17,6 @@ flows:
           nestedVar: 123
       request: json
       response: json
-      out: rsp
-  - log: "Out Response: ${rsp.success}"
+    out: rsp
+  - log: "Success response: ${rsp.statusCode >= 200 and rsp.statusCode < 300}"
+  - log: "Out Response: ${rsp.statusCode >= 200 and rsp.statusCode < 300}"

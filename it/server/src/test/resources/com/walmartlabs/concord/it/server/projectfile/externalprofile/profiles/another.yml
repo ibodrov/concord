@@ -1,4 +1,4 @@
 another:
-  variables:
+  configuration:
     arguments:
       name: "loser"
