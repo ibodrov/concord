@@ -28,10 +28,6 @@
         </dependency>
         <dependency>
             <groupId>com.walmartlabs.concord.server.plugins</groupId>
-            <artifactId>pfed-sso</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.walmartlabs.concord.server.plugins</groupId>
             <artifactId>oidc</artifactId>
         </dependency>
 

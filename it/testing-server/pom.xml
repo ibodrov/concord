@@ -44,10 +44,6 @@
                     <groupId>com.walmartlabs.concord.server.plugins.ansible</groupId>
                     <artifactId>concord-ansible-plugin</artifactId>
                 </exclusion>
-                <exclusion>
-                    <groupId>com.walmartlabs.concord.server.plugins</groupId>
-                    <artifactId>pfed-sso</artifactId>
-                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
