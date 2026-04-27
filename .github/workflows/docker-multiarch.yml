@@ -130,7 +130,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
         with:
-          java-version: '17'
+          java-version: '25'
           distribution: 'temurin'
 
       - name: Set up QEMU
@@ -202,8 +202,7 @@ jobs:
             --push \
             "${platform_args[@]}" \
             --var "DOCKER_NAMESPACE=${DOCKER_NAMESPACE}" \
-            --var "DOCKER_TAG=${BUILD_TAG}" \
-            --var "JDK_VERSION=17"
+            --var "DOCKER_TAG=${BUILD_TAG}"
 
       - name: Verify multi-arch manifests
         run: |

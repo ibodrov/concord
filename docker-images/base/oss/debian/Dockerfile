@@ -15,7 +15,7 @@ RUN apt-get update && \
 
 ADD --chmod=755 ./get_jdk_url.sh /tmp/
 ADD --chmod=755 ./get_arch.sh /tmp/
-ARG jdk_version
+ARG jdk_version=25
 ENV JDK_VERSION=${jdk_version}
 RUN export DEFAULT_TARGETARCH=$(/tmp/get_arch.sh); \
     export TARGETARCH=${TARGETARCH:-${DEFAULT_TARGETARCH}}; \
