@@ -29,10 +29,6 @@
 
         <!-- runners -->
         <file>
-            <source>${project.build.directory}/runner/runner-v1.jar</source>
-            <outputDirectory>runner</outputDirectory>
-        </file>
-        <file>
             <source>${project.build.directory}/runner/runner-v2.jar</source>
             <outputDirectory>runner</outputDirectory>
         </file>

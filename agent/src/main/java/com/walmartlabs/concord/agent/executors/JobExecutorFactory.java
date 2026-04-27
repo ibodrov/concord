@@ -127,6 +127,10 @@ public class JobExecutorFactory {
     }
 
     private static String getRuntimeName(ConfiguredJobRequest req) {
-        return MapUtils.getString(req.getProcessCfg(), Constants.Request.RUNTIME_KEY, "concord-v1");
+        String runtime = MapUtils.getString(req.getProcessCfg(), Constants.Request.RUNTIME_KEY);
+        if (runtime == null) {
+            throw new IllegalStateException("Process runtime is missing. Concord supports only runtime: concord-v2.");
+        }
+        return runtime;
     }
 }

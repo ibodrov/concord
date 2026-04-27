@@ -49,7 +49,9 @@ public class LocalModeIT {
 
     @Test
     public void test() throws Exception {
-        String concordYml = "flows:\n" +
+        String concordYml = "configuration:\n" +
+                "  runtime: concord-v2\n" +
+                "flows:\n" +
                 "  default:\n" +
                 "    - log: \"Hello!\"\n";
 

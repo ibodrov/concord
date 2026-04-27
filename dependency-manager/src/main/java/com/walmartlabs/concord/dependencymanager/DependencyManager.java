@@ -29,8 +29,6 @@ import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.collection.CollectRequest;
-import org.eclipse.aether.collection.DependencyCollectionContext;
-import org.eclipse.aether.collection.DependencySelector;
 import org.eclipse.aether.graph.Dependency;
 import org.eclipse.aether.repository.LocalRepository;
 import org.eclipse.aether.repository.Proxy;
@@ -43,9 +41,6 @@ import org.eclipse.aether.transfer.RepositoryOfflineException;
 import org.eclipse.aether.transfer.TransferEvent;
 import org.eclipse.aether.util.artifact.JavaScopes;
 import org.eclipse.aether.util.filter.ExclusionsDependencyFilter;
-import org.eclipse.aether.util.graph.selector.AndDependencySelector;
-import org.eclipse.aether.util.graph.selector.ExclusionDependencySelector;
-import org.eclipse.aether.util.graph.selector.OptionalDependencySelector;
 import org.eclipse.aether.util.repository.AuthenticationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,7 +82,6 @@ public class DependencyManager {
 
     private final List<String> defaultExclusions;
 
-    private final boolean explicitlyResolveV1Client;
     private final boolean offlineMode;
 
     @Inject
@@ -103,7 +97,6 @@ public class DependencyManager {
         this.maven = RepositorySystemFactory.create();
         this.strictRepositories = cfg.strictRepositories();
         this.defaultExclusions = cfg.exclusions();
-        this.explicitlyResolveV1Client = cfg.explicitlyResolveV1Client();
         this.offlineMode = cfg.offlineMode();
     }
 
@@ -313,9 +306,6 @@ public class DependencyManager {
         excludes.addAll(defaultExclusions);
 
         DependencyRequest dependencyRequest = new DependencyRequest(req, new ExclusionsDependencyFilter(excludes));
-        if (explicitlyResolveV1Client) {
-            dependencyRequest.getCollectRequest().addManagedDependency(new Dependency(ClientDepSelector.CLIENT1_ARTIFACT, ""));
-        }
 
         synchronized (mutex) {
             try {
@@ -337,14 +327,6 @@ public class DependencyManager {
         DefaultRepositorySystemSession session = MavenRepositorySystemUtils.newSession();
         session.setChecksumPolicy(RepositoryPolicy.CHECKSUM_POLICY_IGNORE);
         session.setIgnoreArtifactDescriptorRepositories(strictRepositories);
-        if (explicitlyResolveV1Client) {
-            DependencySelector selector = new AndDependencySelector(
-                    new ClientDepSelector(),
-                    new OptionalDependencySelector(),
-                    new ExclusionDependencySelector());
-
-            session.setDependencySelector(selector);
-        }
 
         LocalRepository localRepo = new LocalRepository(localCacheDir.toFile());
         session.setLocalRepositoryManager(system.newLocalRepositoryManager(session, localRepo));
@@ -454,50 +436,6 @@ public class DependencyManager {
             m.put(k, vv);
         }
         return m;
-    }
-
-    private static class ClientDepSelector implements DependencySelector {
-
-        private static final String CONCORD_CLIENT_GROUP_ID = "com.walmartlabs.concord";
-        private static final String CONCORD_CLIENT_ARTIFACT_ID = "concord-client";
-
-        public static final Artifact CLIENT1_ARTIFACT = new DefaultArtifact(CONCORD_CLIENT_GROUP_ID, CONCORD_CLIENT_ARTIFACT_ID, "jar", Version.get());
-
-        private final boolean transitive;
-        private final Collection<String> excluded;
-
-        public ClientDepSelector() {
-            this(false, Arrays.asList("test", "provided"));
-        }
-
-        public ClientDepSelector(boolean transitive, Collection<String> excluded) {
-            this.transitive = transitive;
-            this.excluded = excluded;
-        }
-
-        @Override
-        public boolean selectDependency(Dependency dependency) {
-            if (CONCORD_CLIENT_GROUP_ID.equals(dependency.getArtifact().getGroupId()) &&
-                CONCORD_CLIENT_ARTIFACT_ID.equals(dependency.getArtifact().getArtifactId())) {
-                return true;
-            }
-
-            if (!transitive) {
-                return true;
-            }
-
-            String scope = dependency.getScope();
-            return !excluded.contains(scope);
-        }
-
-        @Override
-        public DependencySelector deriveChildSelector(DependencyCollectionContext context) {
-            if (this.transitive || context.getDependency() == null) {
-                return this;
-            }
-
-            return new ClientDepSelector(true, excluded);
-        }
     }
 
     private static final class DependencyList {
