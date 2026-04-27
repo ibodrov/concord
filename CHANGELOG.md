@@ -23,7 +23,9 @@
 - project: remove pfed-sso feature
 ([#7](https://github.com/ibodrov/concord/pull/7));
 - project: remove OIDC feature
-([#8](https://github.com/ibodrov/concord/pull/8)).
+([#8](https://github.com/ibodrov/concord/pull/8));
+- runtime: remove runtime-v1 support
+([#9](https://github.com/ibodrov/concord/pull/9)).
 
 ## [2.39.0] - 2026-04-09
 
