@@ -1,8 +1,9 @@
-flows:
-  main:
-  - log: Hello, ${name}
-
-variables:
+configuration:
   entryPoint: main
   arguments:
     name: "world"
+  runtime: "concord-v2"
+
+flows:
+  main:
+  - log: Hello, ${name}

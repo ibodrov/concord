@@ -1,3 +1,6 @@
+configuration:
+  runtime: "concord-v2"
+
 flows:
   default:
 
@@ -7,6 +10,8 @@ flows:
       payload: payload
       sync: true
       arguments:
+        baseUrl: ${baseUrl}
+        orgName: ${orgName}
         inventoryName: ${inventoryName}
         queryName: ${queryName}
 

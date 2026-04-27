@@ -1,15 +1,17 @@
+configuration:
+  entryPoint: main
+  arguments:
+    name: "world"
+  runtime: "concord-v2"
+
 flows:
   main:
   - task: docker
+    out: dockerResult
     in:
       image: ${image}
       debug: true
       forcePull: false
-      stdout: myStdout
+      saveOut: true
       cmd: echo "Hello, ${name}" && (>&2 echo "STDERR STILL WORKS")
-  - log: "!! ${myStdout.trim()} !!"
-
-variables:
-  entryPoint: main
-  arguments:
-    name: "world"
+  - log: "!! ${dockerResult.stdout.trim()} !!"

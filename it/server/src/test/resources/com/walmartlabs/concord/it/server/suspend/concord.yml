@@ -1,0 +1,9 @@
+configuration:
+  runtime: "concord-v2"
+
+flows:
+  main:
+  - log: "aaaa"
+  - suspend: ev1
+  - log: "bbbb"
+  - log: "${testValue}"

@@ -1,7 +1,8 @@
+configuration:
+  arguments:
+    sleep: "1 hour"
+  runtime: "concord-v2"
+
 flows:
   default:
   - log: "sleep time: ${sleep}"
-
-variables:
-  arguments:
-    sleep: "1 hour"

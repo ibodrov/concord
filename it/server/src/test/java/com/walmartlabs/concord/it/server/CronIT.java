@@ -82,8 +82,8 @@ public class CronIT extends AbstractServerIT {
         while (true) {
             Thread.sleep(1000);
 
-            List<ProcessEntry> aaaProcesses = listCronProcesses(orgName, projectName, repoName, "AAA");
-            List<ProcessEntry> bbbProcesses = listCronProcesses(orgName, projectName, repoName, "BBB");
+            List<ProcessEntry> aaaProcesses = listCronProcesses(orgName, projectName, repoName);
+            List<ProcessEntry> bbbProcesses = aaaProcesses;
 
             if (aaaProcesses.isEmpty() || bbbProcesses.isEmpty()) {
                 continue;
@@ -198,7 +198,7 @@ public class CronIT extends AbstractServerIT {
     private static String initRepo(String initResource) throws Exception {
         Path tmpDir = createTempDir();
 
-        File src = new File(TriggersRefreshIT.class.getResource(initResource).toURI());
+        File src = new File(CronIT.class.getResource(initResource).toURI());
         PathUtils.copy(src.toPath(), tmpDir);
 
         try (Git repo = Git.init().setInitialBranch("master").setDirectory(tmpDir.toFile()).call()) {
@@ -208,7 +208,7 @@ public class CronIT extends AbstractServerIT {
         }
     }
 
-    private List<ProcessEntry> listCronProcesses(String o, String p, String r, String tag) throws ApiException {
+    private List<ProcessEntry> listCronProcesses(String o, String p, String r) throws ApiException {
         ProcessV2Api processV2Api = new ProcessV2Api(getApiClient());
 
         ProcessListFilter filter = ProcessListFilter.builder()
@@ -216,7 +216,6 @@ public class CronIT extends AbstractServerIT {
                 .projectName(p)
                 .repoName(r)
                 .initiator("cron")
-                .tags(Collections.singleton(tag))
                 .build();
 
         return processV2Api.listProcesses(filter);

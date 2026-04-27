@@ -13,5 +13,6 @@ flows:
           name: "imports"
 
 configuration:
+  runtime: "concord-v2"
   arguments:
     name: "Concord"

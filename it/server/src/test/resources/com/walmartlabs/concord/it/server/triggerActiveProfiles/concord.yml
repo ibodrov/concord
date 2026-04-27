@@ -24,5 +24,6 @@ profiles:
         name: "stranger"
 
 configuration:
+  runtime: "concord-v2"
   arguments:
     msg: "Bye"

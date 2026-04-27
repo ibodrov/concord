@@ -1,3 +1,6 @@
+configuration:
+  runtime: "concord-v2"
+
 flows:
   forkWithImport:
     - log: "Hello from Concord, ${name}!"

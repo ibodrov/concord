@@ -144,12 +144,17 @@ public class ProcessEventsIT extends AbstractServerIT {
         Map<String, Object> data = ev.getData();
         assertTrue(data.containsKey("in"));
 
-        List<Map<String, Object>> in = (List<Map<String, Object>>) data.get("in");
-        for (Map<String, Object> var : in) {
-            String t = (String) var.get("target");
-            String r = (String) var.get("resolved");
-            if (target.equals(t) && resolvedValue.equals(r)) {
-                return;
+        Object in = data.get("in");
+        if (in instanceof Map) {
+            assertEquals(resolvedValue, ((Map<String, Object>) in).get(target));
+            return;
+        } else if (in instanceof List) {
+            for (Map<String, Object> var : (List<Map<String, Object>>) in) {
+                String t = (String) var.get("target");
+                String r = (String) var.get("resolved");
+                if (target.equals(t) && resolvedValue.equals(r)) {
+                    return;
+                }
             }
         }
 

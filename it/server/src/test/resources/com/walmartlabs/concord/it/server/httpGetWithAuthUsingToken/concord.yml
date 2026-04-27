@@ -1,3 +1,6 @@
+configuration:
+  runtime: "concord-v2"
+
 flows:
   default:
   - task: http
@@ -8,5 +11,6 @@ flows:
         token: ${authToken}
      url: ${url}
      response: "json"
-     out: rsp
-  - log: "Out Response: ${rsp.success}"
+    out: rsp
+  - log: "Success response: ${rsp.statusCode >= 200 and rsp.statusCode < 300}"
+  - log: "Out Response: ${rsp.statusCode >= 200 and rsp.statusCode < 300}"

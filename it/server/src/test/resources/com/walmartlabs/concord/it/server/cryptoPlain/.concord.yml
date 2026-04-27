@@ -1,6 +1,8 @@
+configuration:
+  arguments:
+    entryPoint: main
+  runtime: "concord-v2"
+
 flows:
   main:
   - log: "value=${crypto.exportAsString(secretName, pwd)}"
-
-variables:
-  entryPoint: main

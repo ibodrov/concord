@@ -1,3 +1,6 @@
+configuration:
+  runtime: "concord-v2"
+
 flows:
   default:
     - call: delete-secret
@@ -17,6 +20,7 @@ flows:
   create-secret:
     - log: "Create secret"
     - task: concordSecrets
+      out: result
       in:
         action: create
         name: ${secretName}
@@ -30,6 +34,7 @@ flows:
   get-secret:
     - log: "Get secret"
     - task: concordSecrets
+      out: result
       in:
         name: ${secretName}
         storePassword: Dingo1234
@@ -41,6 +46,7 @@ flows:
   validate-secret:
     - log: "Validate secret"
     - task: concordSecrets
+      out: result
       in:
         action: getAsString
         name: ${secretName}
@@ -53,6 +59,7 @@ flows:
   validate-secret-NOT_FOUND:
     - log: "Validate secret NOT_FOUND"
     - task: concordSecrets
+      out: result
       in:
         action: getAsString
         name: anders-NOT_FOUND-secret
@@ -65,6 +72,7 @@ flows:
   validate-secret-INVALID_REQUEST:
     - log: "Validate secret INVALID_REQUEST"
     - task: concordSecrets
+      out: result
       in:
         action: getAsString
         name: ${secretName}
@@ -78,6 +86,7 @@ flows:
   update-secret-password:
     - log: "Update secret password"
     - task: concordSecrets
+      out: result
       in:
         action: update
         name: ${secretName}
@@ -87,6 +96,7 @@ flows:
   update-secret-data:
     - log: "Update secret data"
     - task: concordSecrets
+      out: result
       in:
         action: update
         name: ${secretName}
@@ -96,6 +106,7 @@ flows:
   get-secret-again:
     - log: "Get secret (with new password and data)"
     - task: concordSecrets
+      out: result
       in:
         name: ${secretName}
         storePassword: Tapir1234
@@ -107,6 +118,7 @@ flows:
   delete-secret:
     - log: "Delete secret"
     - task: concordSecrets
+      out: result
       in:
         action: delete
         name: ${secretName}
@@ -115,6 +127,7 @@ flows:
   update-secret-create:
     - log: "Update secret create"
     - task: concordSecrets
+      out: result
       in:
         action: update
         name: ${secretName}2
@@ -125,6 +138,7 @@ flows:
   delete-secret2:
     - log: "Delete secret2"
     - task: concordSecrets
+      out: result
       in:
         action: delete
         name: ${secretName}2
@@ -132,9 +146,9 @@ flows:
   update-secret-projects:
     - log: "Update secret projects"
     - task: concordSecrets
+      out: result
       in:
         action: update
         name: "${secretName}"
         projects:
           - "${projectName1}"
-

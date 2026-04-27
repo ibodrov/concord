@@ -1,6 +1,13 @@
+configuration:
+  runtime: "concord-v2"
+  dependencies: ["WILL_BE_REPLACED"]
+
 flows:
   main:
-  - ${example.hello()}
-
-variables:
-  dependencies: ["WILL_BE_REPLACED"]
+  - script: js
+    body: |
+      const ExampleBean = Java.type('com.walmartlabs.concord.plugins.example.ExampleBean');
+      result.set('msg', new ExampleBean('Hello!').getValue());
+    out:
+      msg: ${result.msg}
+  - log: "${msg}"

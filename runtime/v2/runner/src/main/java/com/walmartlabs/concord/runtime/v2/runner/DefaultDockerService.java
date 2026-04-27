@@ -79,22 +79,25 @@ public class DefaultDockerService implements DockerService {
             try (DockerProcess dp = build(spec)) {
                 Process p = dp.start();
 
-                LogCapture c = new LogCapture(outCallback);
-                streamToLog(p.getInputStream(), c);
-                if (errCallback != null) {
-                    streamToLog(p.getErrorStream(), errCallback);
-                }
+                LogCapture out = new LogCapture(outCallback);
+                LogCapture err = new LogCapture(errCallback);
+                streamToLog(p.getInputStream(), out);
+                streamToLog(p.getErrorStream(), err);
 
                 result = p.waitFor();
                 if (result == SUCCESS_EXIT_CODE || retryCount == 0 || tryCount >= retryCount) {
                     return result;
                 }
 
-                if (!needRetry(c.getLines())) {
+                if (!needRetry(out.getLines()) && !needRetry(err.getLines())) {
                     return result;
                 }
 
-                log.info("Error pulling the image. Retry after {} sec", retryInterval / 1000);
+                String retryMessage = "Error pulling the image. Retry after " + retryInterval / 1000 + " sec";
+                log.info(retryMessage);
+                if (outCallback != null) {
+                    outCallback.onLog(retryMessage);
+                }
                 sleep(retryInterval);
                 tryCount++;
             }

@@ -1,3 +1,6 @@
+configuration:
+  runtime: "concord-v2"
+
 resources:
   flows:
     - "myFlows"

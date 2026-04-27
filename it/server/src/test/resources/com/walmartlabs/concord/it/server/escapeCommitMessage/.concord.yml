@@ -1,7 +1,8 @@
+configuration:
+  arguments:
+    name: "Vasia"
+  runtime: "concord-v2"
+
 flows:
   default:
     - log: "Hello, ${name}"
-
-variables:
-  arguments:
-    name: "Vasia"

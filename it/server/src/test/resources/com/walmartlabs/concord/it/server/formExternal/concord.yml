@@ -1,4 +1,14 @@
+configuration:
+  runtime: "concord-v2"
+
 flows:
   default:
   - call: myFlow
   - log: "We got ${myForm.myField}"
+
+  myFlow:
+  - form: myForm
+
+forms:
+  myForm:
+  - myField: {type: "string"}

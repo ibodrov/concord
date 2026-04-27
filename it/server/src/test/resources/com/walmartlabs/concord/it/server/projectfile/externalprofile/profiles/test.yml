@@ -1,4 +1,4 @@
 test:
-  variables:
+  configuration:
     arguments:
       name: "world"

@@ -587,7 +587,7 @@ public class ProcessIT extends AbstractTest {
                 .archive(resource("emptyExclusiveGroup")));
 
         expectStatus(proc, ProcessEntry.StatusEnum.FAILED);
-        proc.assertLog(".*Invalid exclusive mode.*");
+        proc.assertLog(".*Invalid value type, expected: NON_EMPTY_STRING.*");
     }
 
     @Test

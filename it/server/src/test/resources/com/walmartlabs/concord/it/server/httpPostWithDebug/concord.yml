@@ -1,3 +1,6 @@
+configuration:
+  runtime: "concord-v2"
+
 flows:
   default:
 
@@ -15,4 +18,4 @@ flows:
       request: json
       response: json
       debug: true
-      out: rsp
+    out: rsp

@@ -1,20 +1,14 @@
 configuration:
+  runtime: "concord-v2"
   exclusive:
     group: "RED"
     mode: "cancel"
 
 flows:
-  onTestTrigger:
-    - log: "Hello from exclusive trigger!"
-
   onTestTriggerv2:
     - log: "Hello from exclusive trigger v2!"
 
 triggers:
-  - testTrigger:
-      entryPoint: onTestTrigger
-      key1: "value1"
-
   - testTriggerv2:
       entryPoint: onTestTriggerv2
       version: 2

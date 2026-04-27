@@ -26,8 +26,6 @@ import com.walmartlabs.concord.client2.StartProcessResponse;
 import org.junit.jupiter.api.Test;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.walmartlabs.concord.it.common.ITUtils.archive;
 import static com.walmartlabs.concord.it.common.ServerClient.assertLog;
@@ -62,11 +60,7 @@ public class TaskRetryIT extends AbstractServerIT {
 
         // start the process
 
-        Map<String, Object> input = new HashMap<>();
-        input.put("archive", payload);
-        input.put("arguments.retryCount", "1");
-        input.put("arguments.retryDelay", "2");
-        StartProcessResponse spr = start(input);
+        StartProcessResponse spr = start(payload);
 
         // wait for completion
 

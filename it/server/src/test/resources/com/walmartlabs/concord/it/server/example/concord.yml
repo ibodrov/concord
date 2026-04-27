@@ -1,0 +1,11 @@
+configuration:
+  runtime: "concord-v2"
+  entryPoint: main
+  arguments:
+    myName: "world"
+    myBool: true
+
+flows:
+  main:
+    - log: "${'Hello, '.concat(myName)}"
+    - log: "${resource.asString(workDir.concat('/something.txt'))}"

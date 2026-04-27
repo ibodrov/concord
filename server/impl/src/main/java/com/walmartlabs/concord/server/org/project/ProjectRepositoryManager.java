@@ -108,7 +108,7 @@ public class ProjectRepositoryManager {
 
         ProcessDefinition processDefinition = entry.isDisabled()
                 ? null
-                : processDefinition(project.getOrgId(), projectId, entry);
+                : processDefinition(project.getOrgId(), projectId, entry, project.getCfg());
 
         InsertUpdateResult result = repositoryDao.txResult(tx -> insertOrUpdate(tx, projectId, repoId, entry, secret, processDefinition));
         addAuditLog(project, result.prevEntry(), result.newEntry());
@@ -137,7 +137,8 @@ public class ProjectRepositoryManager {
 
     public ProjectValidator.Result validateRepository(UUID orgId, RepositoryEntry repo) {
         try {
-            ProcessDefinition pd = processDefinition(orgId, repo.getProjectId(), repo);
+            ProjectEntry project = projectAccessManager.assertAccess(repo.getProjectId(), ResourceAccessLevel.READER, false);
+            ProcessDefinition pd = processDefinition(orgId, repo.getProjectId(), repo, project.getCfg());
             return ProjectValidator.validate(pd);
         } catch (Exception e) {
             throw new RepositoryValidationException("Validation failed: " + repo.getName(), e);
@@ -145,7 +146,11 @@ public class ProjectRepositoryManager {
     }
 
     public ProcessDefinition processDefinition(UUID orgId, UUID projectId, RepositoryEntry repositoryEntry) {
-        return repositoryRefresher.processDefinition(orgId, projectId, repositoryEntry);
+        return processDefinition(orgId, projectId, repositoryEntry, null);
+    }
+
+    public ProcessDefinition processDefinition(UUID orgId, UUID projectId, RepositoryEntry repositoryEntry, Map<String, Object> projectCfg) {
+        return repositoryRefresher.processDefinition(orgId, projectId, repositoryEntry, projectCfg);
     }
 
     @Value.Immutable

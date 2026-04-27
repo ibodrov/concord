@@ -1,3 +1,6 @@
+configuration:
+  runtime: "concord-v2"
+
 flows:
   default:
   - log: "default flow..."
@@ -14,16 +17,19 @@ triggers:
       entryPoint: onCronEvent
 
   - github:
-      project: "myProject"
-      repository: "myRepository"
       entryPoint: onGitEvent
+      version: 2
+      conditions:
+        type: "push"
 
   - eventSource:
-      spec: "specs"
-      param1: ".*123.*"
-      param2: false
-      param3: 123
+      version: 2
       entryPoint: default
+      conditions:
+        spec: "specs"
+        param1: ".*123.*"
+        param2: false
+        param3: 123
       arguments:
          array:
           - val1

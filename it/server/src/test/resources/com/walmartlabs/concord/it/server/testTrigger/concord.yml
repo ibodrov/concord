@@ -1,5 +1,10 @@
+configuration:
+  runtime: "concord-v2"
+
 triggers:
   - test:
       entryPoint: onTrigger
+      version: 2
+      conditions: {}
       arguments:
         name: "Concord"
