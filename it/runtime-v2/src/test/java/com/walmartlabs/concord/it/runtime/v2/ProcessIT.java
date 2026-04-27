@@ -435,7 +435,7 @@ public class ProcessIT extends AbstractTest {
 
     @Test
     public void testCheckpointsWith3rdPartyClasses() throws Exception {
-        String concordYml = resourceToString(NodeRosterIT.class.getResource("checkpointClasses/concord.yml"))
+        String concordYml = resourceToString(ProcessIT.class.getResource("checkpointClasses/concord.yml"))
                 .replaceAll("PROJECT_VERSION", Version.PROJECT_VERSION);
 
         ConcordProcess proc = concord.processes().start(new Payload()

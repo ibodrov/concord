@@ -18,7 +18,6 @@
     <modules>
         <module>ansible</module>
         <module>kafka-event-sink</module>
-        <module>noderoster</module>
         <module>oidc</module>
         <module>pfed-sso</module>
         <module>webapp</module>
