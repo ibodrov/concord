@@ -119,6 +119,7 @@ public class ProjectIT extends AbstractServerIT {
 
             // commit-1
             PathUtils.deleteRecursively(tmpDir.resolve("processes"));
+            PathUtils.deleteRecursively(tmpDir.resolve("concord.yml"));
             src = new File(ProjectIT.class.getResource("project-commit-id").toURI());
             PathUtils.copy(src.toPath().resolve("1"), tmpDir);
             Ref result = repo.checkout().setName("test-branch").setCreateBranch(true).call();
@@ -131,6 +132,7 @@ public class ProjectIT extends AbstractServerIT {
             // commit-2
             result = repo.checkout().setName("master").call();
             PathUtils.deleteRecursively(tmpDir.resolve("processes"));
+            PathUtils.deleteRecursively(tmpDir.resolve("concord.yml"));
             src = new File(ProjectIT.class.getResource("project-commit-id").toURI());
             PathUtils.copy(src.toPath().resolve("2"), tmpDir);
             assertNotNull(result);
@@ -174,6 +176,7 @@ public class ProjectIT extends AbstractServerIT {
 
             // commit-1
             PathUtils.deleteRecursively(tmpDir.resolve("processes"));
+            PathUtils.deleteRecursively(tmpDir.resolve("concord.yml"));
             src = new File(ProjectIT.class.getResource("project-commit-id").toURI());
             PathUtils.copy(src.toPath().resolve("1"), tmpDir);
             repo.add().addFilepattern(".").call();
@@ -183,6 +186,7 @@ public class ProjectIT extends AbstractServerIT {
 
             // commit-2
             PathUtils.deleteRecursively(tmpDir.resolve("processes"));
+            PathUtils.deleteRecursively(tmpDir.resolve("concord.yml"));
             src = new File(ProjectIT.class.getResource("project-commit-id").toURI());
             PathUtils.copy(src.toPath().resolve("2"), tmpDir);
             repo.add().addFilepattern(".").call();
@@ -237,8 +241,7 @@ public class ProjectIT extends AbstractServerIT {
         while (true) {
             List<TriggerEntry> triggers = triggersApi.listTriggers("Default", projectName, repoName);
             if (hasCondition("github", "branch", "foo", triggers) &&
-                    hasCondition("github", "branch", "foo2", triggers) &&
-                    hasCondition("oneops", "org", "myOrg", triggers)) {
+                    hasCondition("github", "branch", "foo2", triggers)) {
                 break;
             }
 

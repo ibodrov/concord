@@ -1,0 +1,15 @@
+configuration:
+  runtime: "concord-v2"
+  dependencies:
+    - "mvn://com.walmartlabs.concord.plugins.basic:smtp-tasks:PROJECT_VERSION"
+  entryPoint: main
+  arguments:
+    mailParams:
+      from: "me@localhost"
+      to: "you@localhost"
+      subject: "test"
+      template: "test.mustache"
+
+flows:
+  main:
+    - task: smtp

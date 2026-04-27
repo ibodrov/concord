@@ -11,5 +11,6 @@ flows:
     - call: flowFromTemplate
 
 configuration:
+  runtime: "concord-v2"
   arguments:
     name: "Concord"

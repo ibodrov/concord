@@ -1,3 +1,6 @@
+configuration:
+  runtime: "concord-v2"
+
 flows:
   default:
   - task: concord
@@ -9,6 +12,9 @@ flows:
         - entryPoint: sayHello
       suspend: true
       sync: true
+    out: forkResult
+  - set:
+      jobs: ${forkResult.ids}
   - log: "task completed"
   - log: "jobs ${jobs}"
 

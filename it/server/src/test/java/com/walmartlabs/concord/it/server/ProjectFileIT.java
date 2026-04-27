@@ -105,7 +105,7 @@ public class ProjectFileIT extends AbstractServerIT {
 
         // create the payload
 
-        String request = "{ \"entryPoint\": \"main\" }";
+        String request = "{ \"runtime\": \"concord-v2\", \"entryPoint\": \"main\" }";
         Path requestFile = tmpDir.resolve(Constants.Files.CONFIGURATION_FILE_NAME);
         Files.write(requestFile, Collections.singletonList(request));
 

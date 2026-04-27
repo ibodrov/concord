@@ -491,13 +491,7 @@ public class ProcessResource implements Resource {
     @WithTimer
     @Deprecated
     public ProcessEntry get(@PathParam("id") UUID instanceId) {
-        PartialProcessKey processKey = PartialProcessKey.from(instanceId);
-        ProcessEntry e = processQueueManager.get(processKey);
-        if (e == null) {
-            log.warn("get ['{}'] -> not found", instanceId);
-            throw new ConcordApplicationException("Process instance not found", Status.NOT_FOUND);
-        }
-        return e;
+        return v2.get(instanceId, Set.of());
     }
 
     /**
@@ -705,7 +699,7 @@ public class ProcessResource implements Resource {
     /**
      * Appends a process' log.
      *
-     * @deprecated in favor of the /api/v2/process/{id}/log* endpoints. The endpoint is still used for the runtime-v1.
+     * @deprecated in favor of the /api/v2/process/{id}/log* endpoints.
      */
     @POST
     @javax.ws.rs.Path("{id}/log")

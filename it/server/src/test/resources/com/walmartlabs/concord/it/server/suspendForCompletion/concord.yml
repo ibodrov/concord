@@ -1,24 +1,26 @@
+configuration:
+  runtime: "concord-v2"
+
 flows:
   default:
+  - task: concord
+    in:
+      action: fork
+      forks:
+      - entryPoint: child
+      - entryPoint: child
+      sync: false
+    out: forkResult
+
   - set:
-      children: []
-
-  - task: concord
-    in:
-      action: start
-      payload: payload
-
-  - ${children.addAll(jobs)}
-
-  - task: concord
-    in:
-      action: start
-      payload: payload
-
-  - ${children.addAll(jobs)}
+      children: ${forkResult.ids}
 
   - log: "children: ${children}"
 
   - ${concord.suspendForCompletion(children)}
 
   - log: "process is resumed."
+
+  child:
+  - log: "Hello from a subprocess!"
+  - ${sleep.ms(3000)}

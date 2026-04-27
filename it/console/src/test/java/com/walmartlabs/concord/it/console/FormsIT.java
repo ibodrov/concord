@@ -82,7 +82,7 @@ class FormsIT {
 
         byte[] ab = serverRule.getLog(pir.getInstanceId());
         assertLog(".*dateField=2019-09-04.*", ab);
-        assertLog(".*dateTimeField=2019-09-04T05:05:00.000Z.*", ab);
+        assertLog(".*dateTimeField=2019-09-04T05:05:00.000\\+0000.*", ab);
     }
 
     @Test

@@ -1,14 +1,18 @@
-flows:
-  main:
-  - docker: ${image}
-    debug: true
-    forcePull: false
-    cmd: echo "Hello, ${name}" && (>&2 echo "STDERR WORKS")
-    stderr: myErr
-
-  - log: "STDERR: ${myErr}"
-
-variables:
+configuration:
   entryPoint: main
   arguments:
     name: "world"
+  runtime: "concord-v2"
+
+flows:
+  main:
+  - task: docker
+    out: dockerResult
+    in:
+      image: ${image}
+      debug: true
+      forcePull: false
+      saveErr: true
+      cmd: echo "Hello, ${name}" && (>&2 echo "STDERR WORKS")
+
+  - log: "STDERR: ${dockerResult.stderr}"

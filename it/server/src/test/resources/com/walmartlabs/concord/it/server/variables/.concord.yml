@@ -1,3 +1,11 @@
+configuration:
+  arguments:
+    nested:
+      z: false
+      p: true
+    name: "stranger"
+  runtime: "concord-v2"
+
 flows:
   main:
   - set:
@@ -11,10 +19,3 @@ flows:
   - log: "nested.q=${nested.q}"
   - log: "var1=${var1}"
   - log: "Hello, ${name}"
-
-variables:
-  arguments:
-    nested:
-      z: false
-      p: true
-    name: "stranger"

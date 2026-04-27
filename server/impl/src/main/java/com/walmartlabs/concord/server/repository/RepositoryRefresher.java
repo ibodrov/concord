@@ -22,14 +22,17 @@ package com.walmartlabs.concord.server.repository;
 
 import com.walmartlabs.concord.common.PathUtils;
 import com.walmartlabs.concord.common.TemporaryPath;
+import com.walmartlabs.concord.common.ZipUtils;
 import com.walmartlabs.concord.db.AbstractDao;
 import com.walmartlabs.concord.db.MainDB;
+import com.walmartlabs.concord.dependencymanager.DependencyManager;
 import com.walmartlabs.concord.imports.ImportsListener;
 import com.walmartlabs.concord.process.loader.DelegatingProjectLoader;
 import com.walmartlabs.concord.process.loader.ImportsNormalizer;
 import com.walmartlabs.concord.runtime.model.ProcessDefinition;
 import com.walmartlabs.concord.repository.Repository;
 import com.walmartlabs.concord.repository.RepositoryException;
+import com.walmartlabs.concord.sdk.Constants;
 import com.walmartlabs.concord.sdk.Secret;
 import com.walmartlabs.concord.server.org.OrganizationManager;
 import com.walmartlabs.concord.server.org.ResourceAccessLevel;
@@ -39,15 +42,20 @@ import com.walmartlabs.concord.server.process.ImportsNormalizerFactory;
 import com.walmartlabs.concord.server.repository.listeners.RepositoryRefreshListener;
 import com.walmartlabs.concord.server.sdk.ConcordApplicationException;
 import com.walmartlabs.concord.server.sdk.validation.ValidationErrorsException;
+import com.walmartlabs.concord.server.template.TemplateAliasDao;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -65,6 +73,8 @@ public class RepositoryRefresher extends AbstractDao {
     private final DelegatingProjectLoader projectLoader;
     private final ImportsNormalizerFactory importsNormalizerFactory;
     private final SecretManager secretManager;
+    private final DependencyManager dependencyManager;
+    private final TemplateAliasDao templateAliasDao;
 
     @Inject
     public RepositoryRefresher(@MainDB Configuration cfg,
@@ -76,7 +86,9 @@ public class RepositoryRefresher extends AbstractDao {
                                ProjectDao projectDao,
                                DelegatingProjectLoader projectLoader,
                                ImportsNormalizerFactory importsNormalizerFactory,
-                               SecretManager secretManager) {
+                               SecretManager secretManager,
+                               DependencyManager dependencyManager,
+                               TemplateAliasDao templateAliasDao) {
 
         super(cfg);
 
@@ -89,6 +101,8 @@ public class RepositoryRefresher extends AbstractDao {
         this.projectLoader = projectLoader;
         this.importsNormalizerFactory = importsNormalizerFactory;
         this.secretManager = secretManager;
+        this.dependencyManager = dependencyManager;
+        this.templateAliasDao = templateAliasDao;
     }
 
     public void refresh(List<UUID> repositoryIds) {
@@ -120,7 +134,7 @@ public class RepositoryRefresher extends AbstractDao {
         UUID orgId = orgManager.assertAccess(orgName, true).getId();
         ProjectEntry projectEntry = assertProject(orgId, projectName);
         RepositoryEntry repositoryEntry = repositoryDao.get(projectEntry.getId(), repositoryName);
-        ProcessDefinition processDefinition = processDefinition(orgId, repositoryEntry.getProjectId(), repositoryEntry);
+        ProcessDefinition processDefinition = processDefinition(orgId, repositoryEntry.getProjectId(), repositoryEntry, projectEntry.getCfg());
         tx(tx -> refresh(tx, projectEntry.getId(), repositoryName , processDefinition));
     }
 
@@ -137,6 +151,10 @@ public class RepositoryRefresher extends AbstractDao {
     }
 
     public ProcessDefinition processDefinition(UUID orgId, UUID projectId, RepositoryEntry repositoryEntry) {
+        return processDefinition(orgId, projectId, repositoryEntry, null);
+    }
+
+    public ProcessDefinition processDefinition(UUID orgId, UUID projectId, RepositoryEntry repositoryEntry, Map<String, Object> projectCfg) {
         if (repositoryEntry.getBranch() == null && repositoryEntry.getCommitId() == null){
             throw new ValidationErrorsException("Branch or CommitId required");
         }
@@ -161,11 +179,48 @@ public class RepositoryRefresher extends AbstractDao {
                 return null;
             });
 
+            extractTemplate(path, projectCfg);
+
             return projectLoader.loadProject(path, normalizer, ImportsListener.NOP_LISTENER)
                     .projectDefinition();
         } catch (Exception e) {
             throw new ConcordApplicationException("Error while loading process definition: \n" + e.getMessage(), e);
         }
+    }
+
+    private void extractTemplate(Path workspace, Map<String, Object> projectCfg) throws Exception {
+        if (projectCfg == null) {
+            return;
+        }
+
+        Object template = projectCfg.get(Constants.Request.TEMPLATE_KEY);
+        if (!(template instanceof String)) {
+            return;
+        }
+
+        Path templatePath = dependencyManager.resolveSingle(getTemplateUri((String) template)).getPath();
+        ZipUtils.unzip(templatePath, workspace, true);
+    }
+
+    private URI getTemplateUri(String template) throws URISyntaxException {
+        try {
+            URI u = new URI(template);
+            String scheme = u.getScheme();
+            if (scheme == null || scheme.trim().isEmpty()) {
+                return getTemplateUriByAlias(template);
+            }
+            return u;
+        } catch (URISyntaxException e) {
+            return getTemplateUriByAlias(template);
+        }
+    }
+
+    private URI getTemplateUriByAlias(String template) throws URISyntaxException {
+        Optional<String> uri = templateAliasDao.get(template);
+        if (uri.isEmpty()) {
+            throw new RepositoryException("Invalid template URL or alias: " + template);
+        }
+        return new URI(uri.get());
     }
 
     private ProjectEntry assertProject(UUID orgId, String projectName) {

@@ -120,12 +120,19 @@
             </exclusions>
         </dependency>
 
-        <!-- Node Roster stuff -->
+        <!-- for evaluating custom form data.js -->
         <dependency>
-            <groupId>com.walmartlabs.concord.server.plugins.noderoster</groupId>
-            <artifactId>concord-noderoster-plugin-client2</artifactId>
+            <groupId>org.graalvm.polyglot</groupId>
+            <artifactId>js</artifactId>
+            <type>pom</type>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.graalvm.js</groupId>
+            <artifactId>js-scriptengine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

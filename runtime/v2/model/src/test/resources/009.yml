@@ -43,15 +43,3 @@ triggers:
       entryPoint: exampleFLow
       conditions:
         aField: "aValue"
-
-  - oneops:
-      version: 2
-      conditions:
-        org: "myOrganization"
-        asm: "myAssembly"
-        env: "myEnvironment"
-        platform: "myPlatform"
-        type: "deployment"
-        deploymentState: "complete"
-      useInitiator: true
-      entryPoint: onDeployment

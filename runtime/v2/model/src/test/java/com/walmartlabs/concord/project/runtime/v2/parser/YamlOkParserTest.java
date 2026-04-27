@@ -373,7 +373,7 @@ public class YamlOkParserTest extends AbstractParserTest {
         List<Trigger> triggers = pd.triggers();
         assertNotNull(triggers);
 
-        assertEquals(6, triggers.size());
+        assertEquals(5, triggers.size());
 
         Trigger t = triggers.get(0);
         assertEquals("github", t.name());
@@ -391,9 +391,6 @@ public class YamlOkParserTest extends AbstractParserTest {
 
         t = triggers.get(4);
         assertEquals("example", t.name());
-
-        t = triggers.get(5);
-        assertEquals("oneops", t.name());
     }
 
     // Full form of IF definition

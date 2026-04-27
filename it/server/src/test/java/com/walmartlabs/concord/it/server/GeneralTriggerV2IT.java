@@ -41,7 +41,7 @@ public class GeneralTriggerV2IT extends AbstractGeneralTriggerIT {
     private void setup(String yamlPath) throws Exception {
         Path tmpDir = createTempDir();
 
-        File src = new File(TriggersRefreshIT.class.getResource(yamlPath).toURI());
+        File src = new File(GeneralTriggerV2IT.class.getResource(yamlPath).toURI());
         PathUtils.copy(src.toPath(), tmpDir);
 
         try (Git repo = Git.init().setInitialBranch("master").setDirectory(tmpDir.toFile()).call()) {
@@ -77,7 +77,7 @@ public class GeneralTriggerV2IT extends AbstractGeneralTriggerIT {
     public void testExclusiveV2() throws Exception {
         setup("generalExclusiveTriggerv2");
 
-        waitForTriggers(orgName, projectName, repoName, 2);
+        waitForTriggers(orgName, projectName, repoName, 1);
 
         ExternalEventsApi eea = new ExternalEventsApi(getApiClient());
         Map<String, Object> eventParam = new HashMap<>();
@@ -100,7 +100,7 @@ public class GeneralTriggerV2IT extends AbstractGeneralTriggerIT {
     public void testExclusiveFromConfigurationV2() throws Exception {
         setup("generalTriggerWithExclusiveCfgv2");
 
-        waitForTriggers(orgName, projectName, repoName, 2);
+        waitForTriggers(orgName, projectName, repoName, 1);
 
         // ---
 
@@ -127,7 +127,7 @@ public class GeneralTriggerV2IT extends AbstractGeneralTriggerIT {
     public void testExclusiveWithTriggerOverrideV2() throws Exception {
         setup("generalTriggerWithExclusiveOverridev2");
 
-        waitForTriggers(orgName, projectName, repoName, 2);
+        waitForTriggers(orgName, projectName, repoName, 1);
 
         // ---
 

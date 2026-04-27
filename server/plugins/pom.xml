@@ -17,11 +17,6 @@
 
     <modules>
         <module>ansible</module>
-        <module>kafka-event-sink</module>
-        <module>noderoster</module>
-        <module>oidc</module>
-        <module>oneops</module>
-        <module>pfed-sso</module>
         <module>webapp</module>
     </modules>
 </project>

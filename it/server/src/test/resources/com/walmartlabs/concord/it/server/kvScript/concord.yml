@@ -1,4 +1,5 @@
 configuration:
+  runtime: "concord-v2"
   dependencies:
     - "mvn://org.apache.groovy:groovy-all:pom:5.0.4"
 
@@ -7,6 +8,6 @@ flows:
     - script: groovy
       body: |
         def kv = tasks.get('kv');
-        kv.putString(execution, 'myKey', 'myValue');
+        kv.putString('myKey', 'myValue');
 
     - log: "got myKey: ${kv.getString('myKey')}"

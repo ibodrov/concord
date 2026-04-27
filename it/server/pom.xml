@@ -53,11 +53,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.walmartlabs.concord.server.plugins.noderoster</groupId>
-            <artifactId>concord-noderoster-plugin-client2</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>com.walmartlabs.concord.it</groupId>
             <artifactId>concord-common-it</artifactId>
             <scope>test</scope>
@@ -508,9 +503,6 @@
                                             <DB_URL>jdbc:postgresql://${it.db.addr}/postgres</DB_URL>
                                             <DB_USERNAME>postgres</DB_USERNAME>
                                             <LDAP_URL>ldap://${it.ldap.addr}</LDAP_URL>
-                                            <NODEROSTER_DB_PASSWORD>it</NODEROSTER_DB_PASSWORD>
-                                            <NODEROSTER_DB_URL>jdbc:postgresql://${it.db.addr}/postgres</NODEROSTER_DB_URL>
-                                            <NODEROSTER_DB_USERNAME>postgres</NODEROSTER_DB_USERNAME>
                                             <CONCORD_MAVEN_CFG>/opt/concord/conf/mvn.json</CONCORD_MAVEN_CFG>
                                         </env>
                                         <wait>

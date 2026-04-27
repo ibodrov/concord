@@ -4,6 +4,7 @@ flows:
     - ${sleep.ms(time)}
 
 configuration:
+  runtime: "concord-v2"
   exclusive:
     group: "RED"
     mode: "cancelOld"

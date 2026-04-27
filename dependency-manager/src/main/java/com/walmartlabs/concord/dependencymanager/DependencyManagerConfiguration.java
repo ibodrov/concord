@@ -61,11 +61,6 @@ public interface DependencyManagerConfiguration {
     }
 
     @Value.Default
-    default boolean explicitlyResolveV1Client() {
-        return false;
-    }
-
-    @Value.Default
     default boolean offlineMode() {
         return false;
     }

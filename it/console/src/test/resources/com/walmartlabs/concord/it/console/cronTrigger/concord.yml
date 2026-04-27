@@ -1,0 +1,12 @@
+configuration:
+  runtime: "concord-v2"
+
+flows:
+  default:
+    - log: "cron"
+
+triggers:
+- cron:
+    spec: "0 10 * * *"
+    timezone: "America/Toronto"
+    entryPoint: default

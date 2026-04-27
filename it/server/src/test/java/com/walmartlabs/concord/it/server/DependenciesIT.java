@@ -45,7 +45,7 @@ public class DependenciesIT extends AbstractServerIT {
     public void testUploadAndRun() throws Exception {
         String dep = "file:///" + ITConstants.DEPENDENCIES_DIR + "/example.jar";
 
-        String request = "{ \"entryPoint\": \"main\", \"dependencies\": [ \"" + dep + "\" ] }";
+        String request = "{ \"runtime\": \"concord-v2\", \"entryPoint\": \"main\", \"dependencies\": [ \"" + dep + "\" ] }";
         Path tmpDir = createTempDir();
         Path requestFile = tmpDir.resolve(Constants.Files.CONFIGURATION_FILE_NAME);
         Files.write(requestFile, Collections.singletonList(request));

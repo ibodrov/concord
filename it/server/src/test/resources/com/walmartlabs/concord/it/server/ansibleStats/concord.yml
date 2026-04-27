@@ -1,10 +1,12 @@
 configuration:
+  runtime: "concord-v2"
   dependencies:
     - mvn://com.walmartlabs.concord.plugins.basic:ansible-tasks:PROJECT_VERSION
 
 flows:
   default:
   - task: ansible
+    out: result
     in:
       playbook: playbook/hello.yml
       inventory:
@@ -15,5 +17,4 @@ flows:
             ansible_connection: "local"
       outVars: "_stats"
 
-  - log: "OK: ${ _stats.ok }"
-
+  - log: "OK: ${result._stats.ok}"

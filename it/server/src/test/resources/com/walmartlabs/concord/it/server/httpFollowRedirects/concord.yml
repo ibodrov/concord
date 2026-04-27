@@ -6,8 +6,10 @@ flows:
       url: ${url}
       response: string
       followRedirects: false
-      out: rsp
+    out: rsp
+  - log: "Response status code: ${rsp.statusCode}"
 
 configuration:
+  runtime: "concord-v2"
   arguments:
     url: "http://localhost:8001"

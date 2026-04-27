@@ -6,11 +6,13 @@ flows:
         method: GET
         url: ${url}
         response: json
-        out: rsp
-    - log: "Out Response: ${rsp.success}"
+      out: rsp
+    - log: "Success response: ${rsp.statusCode >= 200 and rsp.statusCode < 300}"
+    - log: "Out Response: ${rsp.statusCode >= 200 and rsp.statusCode < 300}"
     error:
     - log: "Gotcha! ${lastError}"
 
 configuration:
+  runtime: "concord-v2"
   arguments:
     url: "http://localhost:8001"

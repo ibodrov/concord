@@ -1,0 +1,21 @@
+configuration:
+  runtime: "concord-v2"
+  dependencies:
+    - "mvn://com.walmartlabs.concord.plugins.basic:ansible-tasks:PROJECT_VERSION"
+  entryPoint: main
+  arguments:
+    ansibleParams:
+      playbook: "playbook/hello.yml"
+      inventory:
+        local:
+          hosts:
+            - "127.0.0.1"
+          vars:
+            ansible_connection: "local"
+      extraVars:
+        greetings: "Hello, world"
+
+flows:
+  main:
+    - task: ansible
+      in: "${ansibleParams}"

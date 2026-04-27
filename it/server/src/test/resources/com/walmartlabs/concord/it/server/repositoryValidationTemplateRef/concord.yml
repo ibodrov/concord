@@ -1,6 +1,9 @@
 configuration:
+  runtime: "concord-v2"
   template: "{{ template }}"
 
 triggers:
   - test:
       entryPoint: "fromTemplate"
+      version: 2
+      conditions: {}

@@ -1,0 +1,6 @@
+configuration:
+  runtime: "concord-v2"
+
+flows:
+  default:
+    - log: "\u001b[31mANSI_RED\u001b[0m"

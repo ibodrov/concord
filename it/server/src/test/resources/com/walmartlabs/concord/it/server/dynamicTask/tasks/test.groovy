@@ -1,4 +1,4 @@
-import com.walmartlabs.concord.sdk.Task
+import com.walmartlabs.concord.runtime.v2.sdk.Task
 
 import javax.inject.Named
 

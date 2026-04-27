@@ -1,3 +1,6 @@
+configuration:
+  runtime: "concord-v2"
+
 flows:
   default:
   - form: myForm
@@ -8,4 +11,6 @@ flows:
 
 forms:
   myForm:
-  - c: {type: "string", value: "234"}
+  - a: {type: "int", value: 123, readonly: true}
+  - b: {type: "string", value: "hello", readonly: true}
+  - c: {type: "string", value: "234", readonly: true}

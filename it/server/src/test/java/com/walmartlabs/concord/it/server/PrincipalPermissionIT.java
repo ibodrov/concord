@@ -56,6 +56,7 @@ public class PrincipalPermissionIT extends AbstractServerIT {
 
         Map<String, Object> input = new HashMap<>();
         input.put("archive", payload);
+        input.put("arguments.baseUrl", getApiClient().getBaseUri());
         input.put("arguments.inventoryName", inventoryName);
         input.put("arguments.orgName", orgName);
         input.put("arguments.queryName", queryName);

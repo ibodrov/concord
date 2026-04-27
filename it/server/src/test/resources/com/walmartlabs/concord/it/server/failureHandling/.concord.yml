@@ -1,3 +1,8 @@
+configuration:
+  arguments:
+    entryPoint: main
+  runtime: "concord-v2"
+
 flows:
   main:
   - form: myForm1
@@ -13,6 +18,3 @@ flows:
 forms:
   myForm1:
   - firstName: { label: "First Name", type: "string" }
-
-variables:
-  entryPoint: main

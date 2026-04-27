@@ -43,7 +43,7 @@ public class ProcessCountIT extends AbstractServerIT {
     public void test() throws Exception {
         Path tmpDir = createTempDir();
 
-        File src = new File(TriggersRefreshIT.class.getResource("processCount").toURI());
+        File src = new File(ProcessCountIT.class.getResource("processCount").toURI());
         PathUtils.copy(src.toPath(), tmpDir);
 
         try (Git repo = Git.init().setInitialBranch("master").setDirectory(tmpDir.toFile()).call()) {

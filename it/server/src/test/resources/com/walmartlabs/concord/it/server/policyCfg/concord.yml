@@ -3,6 +3,7 @@ flows:
   - log: "${x.msg}, ${x.name}"
 
 configuration:
+  runtime: "concord-v2"
   arguments:
     x:
       msg: "Hello"

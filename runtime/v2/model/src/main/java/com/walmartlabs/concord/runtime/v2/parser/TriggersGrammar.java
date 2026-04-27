@@ -178,30 +178,6 @@ public final class TriggersGrammar {
     private static final Parser<Atom, Trigger> manualTriggerVal =
             orError(manualTrigger, YamlValueType.MANUAL_TRIGGER);
 
-    private static final Parser<Atom, Trigger> oneopsTriggerV1 = in -> {
-        throw new UnsupportedException("Version 1 of oneops trigger not supported");
-    };
-
-    private static final Parser<Atom, Trigger> oneopsTriggerV2 =
-            with(ImmutableTrigger::builder,
-                    o -> options(
-                            optional("useInitiator", booleanVal.map(v -> o.putConfiguration("useInitiator", v))),
-                            mandatory("entryPoint", stringVal.map(v -> o.putConfiguration("entryPoint", v))),
-                            optional("activeProfiles", stringArrayVal.map(o::activeProfiles)),
-                            optional("arguments", mapVal.map(o::arguments)),
-                            optional("exclusive", exclusiveVal.map(v -> o.putConfiguration("exclusive", v))),
-                            mandatory("conditions", mapVal.map(o::putAllConditions)),
-                            mandatory("version", intVal.map(v -> o.putConditions("version", v)))))
-                    .map(t -> t.name("oneops"))
-                    .map(ImmutableTrigger.Builder::build);
-
-    private static final Parser<Atom, Trigger> oneopsTrigger =
-            betweenTokens(JsonToken.START_OBJECT, JsonToken.END_OBJECT,
-                    lookup("version", YamlValueType.INT, 2, oneopsTriggerV2, oneopsTriggerV1));
-
-    private static final Parser<Atom, Trigger> oneopsTriggerVal =
-            orError(oneopsTrigger, YamlValueType.ONEOPS_TRIGGER);
-
     private static final Parser<Atom, Trigger> genericTriggerV1 = in -> {
         throw new UnsupportedException("Version 1 of generic trigger not supported");
     };
@@ -234,7 +210,6 @@ public final class TriggersGrammar {
                             satisfyField("github", atom -> githubTriggerVal.map(t -> addLocation(t, atom))),
                             satisfyField("cron", atom -> cronTriggerVal.map(t -> addLocation(t, atom))),
                             satisfyField("manual", atom -> manualTriggerVal.map(t -> addLocation(t, atom))),
-                            satisfyField("oneops", atom -> oneopsTriggerVal.map(t -> addLocation(t, atom))),
                             satisfyAnyField(YamlValueType.GENERIC_TRIGGER, atom -> genericTriggerVal(atom.name).map(t -> addLocation(t, atom)))));
 
     private static Trigger addLocation(Trigger t, Atom atom) {

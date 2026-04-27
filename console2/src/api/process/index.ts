@@ -21,7 +21,6 @@
 import { SemanticCOLORS, SemanticICONS } from 'semantic-ui-react';
 import { ConcordId, ConcordKey, fetchJson, managedFetch, queryParams } from '../common';
 import { ColumnDefinition } from '../org';
-import 'url-search-params-polyfill';
 
 export enum ProcessStatus {
     NEW = 'NEW',
@@ -170,7 +169,7 @@ export enum ProcessKind {
     TIMEOUT_HANDLER = 'TIMEOUT_HANDLER'
 }
 
-export type ProcessRuntime = 'concord-v1' | 'concord-v2' | string;
+export type ProcessRuntime = 'concord-v2' | string;
 
 export interface TriggeredByEntry {
     externalEventId?: string;

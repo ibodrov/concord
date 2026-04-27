@@ -35,7 +35,6 @@ import com.walmartlabs.concord.server.process.Payload;
 import com.walmartlabs.concord.server.process.PayloadUtils;
 import com.walmartlabs.concord.server.process.ProcessException;
 import com.walmartlabs.concord.server.process.logs.ProcessLogManager;
-import com.walmartlabs.concord.server.sdk.ConcordApplicationException;
 import com.walmartlabs.concord.server.sdk.ProcessKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +46,7 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Stream;
 
-import static com.walmartlabs.concord.process.loader.StandardRuntimeTypes.CONCORD_V1_RUNTIME_TYPE;
+import static com.walmartlabs.concord.process.loader.StandardRuntimeTypes.CONCORD_V2_RUNTIME_TYPE;
 
 /**
  * Loads the process definition using the working directory and configured {@code imports}.
@@ -86,7 +85,7 @@ public class ProcessDefinitionProcessor implements PayloadProcessor {
         try {
             String runtime = getRuntimeType(payload);
             if (!projectLoader.supports(runtime)) {
-                throw new ConcordApplicationException("Unsupported runtime type: " + runtime, Response.Status.BAD_REQUEST);
+                throw unsupportedRuntime(processKey, runtime);
             }
 
             ProjectLoader.Result result = projectLoader.loadProject(workDir, runtime, importsNormalizer.forProject(projectId),
@@ -106,7 +105,7 @@ public class ProcessDefinitionProcessor implements PayloadProcessor {
             int depsCount = allDependencies.size();
             if (depsCount > MAX_DEPENDENCIES_COUNT) {
                 String msg = String.format("Too many dependencies. Current: %d, maximum allowed: %d", depsCount, MAX_DEPENDENCIES_COUNT);
-                throw new ConcordApplicationException(msg, Response.Status.BAD_REQUEST);
+                throw new ProcessException(processKey, msg, Response.Status.BAD_REQUEST);
             }
 
             payload = payload.putHeader(Payload.PROJECT_DEFINITION, pd)
@@ -121,6 +120,8 @@ public class ProcessDefinitionProcessor implements PayloadProcessor {
             payload = payload.putHeader(Payload.CONFIGURATION, cfg);
         } catch (ImportProcessingException e) {
             throw new ProcessException(processKey, "Error while processing import " + e.getImport() + ". Error: " + e.getMessage(), e);
+        } catch (ProcessException e) {
+            throw e;
         } catch (Exception e) {
             log.warn("process -> ({}) project loading error: {}", workDir, e.getMessage());
             throw new ProcessException(processKey, "Error while loading the project, check the syntax. " + e.getMessage(), e);
@@ -144,7 +145,17 @@ public class ProcessDefinitionProcessor implements PayloadProcessor {
         }
 
         Path workDir = payload.getHeader(Payload.WORKSPACE_DIR);
-        return ProjectLoaderUtils.getRuntimeType(workDir).orElse(CONCORD_V1_RUNTIME_TYPE);
+        return ProjectLoaderUtils.getRuntimeType(workDir).orElse(null);
+    }
+
+    private static ProcessException unsupportedRuntime(ProcessKey processKey, String runtime) {
+        String msg;
+        if (runtime == null) {
+            msg = "Missing runtime type. Concord supports only runtime: " + CONCORD_V2_RUNTIME_TYPE + ".";
+        } else {
+            msg = "Unsupported runtime type: " + runtime + ". Concord supports only runtime: " + CONCORD_V2_RUNTIME_TYPE + ".";
+        }
+        return new ProcessException(processKey, msg, Response.Status.BAD_REQUEST);
     }
 
     class ProcessImportsListener implements ImportsListener {

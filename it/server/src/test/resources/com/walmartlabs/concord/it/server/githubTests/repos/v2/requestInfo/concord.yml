@@ -1,3 +1,6 @@
+configuration:
+  runtime: "concord-v2"
+
 flows:
   onPush:
     - log: "Hello, ${requestInfo.headers.Host}!"
@@ -6,3 +9,5 @@ triggers:
   - github:
       entryPoint: "onPush"
       version: 2
+      conditions:
+        type: "push"

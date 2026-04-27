@@ -32,6 +32,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 public class DependenciesProcessor implements PayloadProcessor {
@@ -51,11 +52,13 @@ public class DependenciesProcessor implements PayloadProcessor {
         // get a list of dependencies from the cfg data
         Collection<String> deps = getListOfStrings(processKey, cfg, Constants.Request.DEPENDENCIES_KEY);
         Collection<String> extraDeps = getListOfStrings(processKey, cfg, Constants.Request.EXTRA_DEPENDENCIES_KEY);
-        if (deps == null && extraDeps == null) {
+        List<String> existingDeps = payload.getHeader(Payload.DEPENDENCIES, Collections.emptyList());
+        if (deps == null && extraDeps == null && existingDeps.isEmpty()) {
             return chain.process(payload);
         }
 
-        Collection<String> allDeps = new ArrayList<>(deps != null ? deps : Collections.emptyList());
+        Collection<String> allDeps = new ArrayList<>(existingDeps);
+        allDeps.addAll(deps != null ? deps : Collections.emptyList());
         allDeps.addAll(extraDeps != null ? extraDeps : Collections.emptyList());
 
         boolean failed = false;
@@ -73,7 +76,8 @@ public class DependenciesProcessor implements PayloadProcessor {
         }
 
         cfg.put(Constants.Request.DEPENDENCIES_KEY, allDeps);
-        payload = payload.putHeader(Payload.CONFIGURATION, cfg);
+        payload = payload.putHeader(Payload.CONFIGURATION, cfg)
+                .putHeader(Payload.DEPENDENCIES, new ArrayList<>(allDeps));
 
         return chain.process(payload);
     }
