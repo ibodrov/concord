@@ -17,7 +17,6 @@
 
     <modules>
         <module>ansible</module>
-        <module>oidc</module>
         <module>webapp</module>
     </modules>
 </project>

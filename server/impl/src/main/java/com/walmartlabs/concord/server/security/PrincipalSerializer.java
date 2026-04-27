@@ -52,8 +52,6 @@ final class PrincipalSerializer {
 
     private static final String SNAPSHOT_TYPE = "concord.security.principal-collection";
     private static final int SNAPSHOT_VERSION = 1;
-    private static final String OIDC_TOKEN_CLASS = "com.walmartlabs.concord.server.plugins.oidc.OidcToken";
-    private static final String OIDC_PROFILE_CLASS = "com.walmartlabs.concord.server.plugins.oidc.UserProfile";
 
     private static final ObjectMapper objectMapper = new ObjectMapper()
             .registerModule(new JavaTimeModule());
@@ -182,8 +180,6 @@ final class PrincipalSerializer {
             return usernamePassword((UsernamePasswordToken) principal);
         } else if (principal instanceof GithubKey) {
             return githubKey((GithubKey) principal);
-        } else if (principal != null && OIDC_TOKEN_CLASS.equals(principal.getClass().getName())) {
-            return oidcToken(principal);
         }
 
         throw new IllegalArgumentException("Unsupported principal type: " + principal.getClass().getName());
@@ -221,8 +217,6 @@ final class PrincipalSerializer {
                 return new UsernamePasswordToken(username, password != null ? password.toCharArray() : null, bool(p.data, "rememberMe"));
             case "githubKey":
                 return new GithubKey(text(p.data, "key"), uuid(p.data, "projectId"), text(p.data, "repoToken"));
-            case "oidcToken":
-                return oidcToken(p.data);
             default:
                 throw new IllegalArgumentException("Unsupported principal snapshot type: " + p.type);
         }
@@ -272,19 +266,6 @@ final class PrincipalSerializer {
         put(data, "projectId", principal.getProjectId());
         put(data, "repoToken", principal.getRepoToken());
         return new PrincipalSnapshot("githubKey", data);
-    }
-
-    private static PrincipalSnapshot oidcToken(Object principal) {
-        ObjectNode data = objectMapper.createObjectNode();
-        data.set("profile", objectMapper.valueToTree(invoke(principal, "getProfile")));
-        return new PrincipalSnapshot("oidcToken", data);
-    }
-
-    private static Object oidcToken(JsonNode data) throws Exception {
-        Class<?> profileClass = Class.forName(OIDC_PROFILE_CLASS);
-        Object profile = objectMapper.treeToValue(data.get("profile"), profileClass);
-        Class<?> tokenClass = Class.forName(OIDC_TOKEN_CLASS);
-        return tokenClass.getConstructor(profileClass).newInstance(profile);
     }
 
     private static Object invoke(Object target, String methodName) {
